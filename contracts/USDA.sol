@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 // import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "../libraries/ERC20Permit.sol";
+import "./libraries/ERC20Permit.sol";
 
 contract USDA is ERC20Permit {
     constructor() ERC20Permit("USDA", "USDA") {
