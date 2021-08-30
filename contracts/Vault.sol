@@ -10,22 +10,22 @@ contract Vault is ERC20 {
 
     mapping(address => mapping(address => uint256)) private _allowances;
 
-    constructor(address _addr) 
+    constructor(address _underlyTokenAddr) 
         ERC20(
-            string(abi.encodePacked("x", ERC20(_addr).name())),
-            string(abi.encodePacked("x", ERC20(_addr).symbol()))
+            string(abi.encodePacked("x", ERC20(_underlyTokenAddr).name())),
+            string(abi.encodePacked("x", ERC20(_underlyTokenAddr).symbol()))
         ) 
     { 
-        addr = _addr;
+        addr = _underlyTokenAddr;
         token = ERC20(addr);
     }
 
-    function setAddr(address _addr) public {    //设置underlyToken的地址
-        addr = _addr;
+    function setAddr(address _underlyTokenAddr) public {    //设置underlyToken的地址
+        addr = _underlyTokenAddr;
         token = ERC20(addr);
     }
 
-    function deposit(uint256 _amount, address recipient) public {
+    function deposit(uint256 _amount, address recipient) public returns (uint256){
         uint256 _pool = token.balanceOf(address(this));
         uint256 _before = token.balanceOf(address(this));
 
@@ -40,6 +40,8 @@ contract Vault is ERC20 {
             shares = _amount * totalSupply() / _pool;
         }
         _mint(recipient, shares);
+
+        return shares;
     }
 
     function _withdraw(
